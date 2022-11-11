@@ -1,0 +1,8 @@
+create database multiplication;
+create table m_matrix (matrix string, r int,c int, value int) row format delimited fields terminated by',' lines terminated by '\n'; 
+create table n_matrix (matrix string, r int,c int, value int) row format delimited fields terminated by',' lines terminated by '\n';
+load data local inpath '/home/cloudera/n.txt' into table n matrix;
+load data local inpath '/home/cloudera/m.txt' into table m_matrix;
+select temp.r, temp.c, SUM(temp.value)
+from (select m.r as r, n.c as c, (m.value*n.value) as value from m_matrix m, n_matrix n where m.c=n.r) temp
+group by temp.r, temp.c;
