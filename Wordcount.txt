@@ -1,0 +1,7 @@
+CREATE DATABASE lib1;
+USE lib1;
+create table line(line string) row format delimited lines terminated by '\n';
+load data local inpath '' into table line;
+select word , count(word)
+from (Select explode((split(line,' ')) as word from line ) temp
+group by word;
